@@ -1,0 +1,132 @@
+---
+import Layout from '../components/layout.astro';
+---
+
+<style>
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 35ch;
+}
+
+.form label {
+  color: var(--heading);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  margin-top: 1rem;
+  text-transform: uppercase;
+}
+
+.form label:first-of-type {
+  margin-top: 0;
+}
+
+.form input,
+.form textarea {
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  margin-top: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.form textarea {
+  height: 100px;
+}
+
+.button {
+  background: var(--primary);
+  border: 0;
+  border-radius: 4px;
+  color: var(--button);
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  width: max-content;
+}
+
+.heading,
+.docs {
+  text-align: center;
+}
+</style>
+
+<Layout
+  title="Netlify Forms"
+  description="Turn any HTML form into a functional form that can receive submissions with a single line of code."
+>
+  <main>
+    <h2 class="heading">Make this form functional</h2>
+
+    <form name="contact" method="POST" data-netlify="true">
+      <p>
+          <label>Your Name: <input type="text" id="name" name="name" /></label>   
+      </p>
+      <p>
+          <label>Your Email: <input type="email" id="email" name="email" /></label>
+      </p>
+      <p>
+          <label>Your Role: <select name="role[]" multiple>
+          <option value="leader">Leader</option>
+          <option value="follower">Follower</option>
+          </select></label>
+      </p>
+      <p>
+          <label>Message: <textarea name="message"></textarea></label>
+      </p>
+      <p>
+          <button class="form_submit" type="submit">Send</button>
+      </p>
+    </form>
+
+    
+    <script>
+      // Border styling
+      var borderStylePass = document.querySelector('#name').style.border;
+      var borderStyleFail = '1px solid red';
+      
+      var submit_button = document.querySelector('.form_submit');
+
+      submit_button.addEventListener("click", function(event){
+
+          // Get form elements
+          var name = document.querySelector('#name');
+          var email = document.querySelector('#email');
+
+        
+          failedValidation = false;
+
+          name.style.border = borderStylePass;
+          if(!name.value){
+            failedValidation = false;
+              name.style.border = borderStyleFail;
+          }
+
+          email.style.border = borderStylePass;
+          if(!email.value){
+              failedValidation = false;
+              email.style.border = borderStyleFail;
+          }
+
+          // If form validation fails, 
+          // prevent form from being submitted
+          if(!failedValidation){
+              event.preventDefault();
+          }
+          
+      }, false);
+    </script>
+
+    <p class="docs">
+      <a href="https://docs.netlify.com/forms/setup/">
+        Learn about Netlify Forms in the docs.
+      </a>
+    </p>
+  </main>
+</Layout>
